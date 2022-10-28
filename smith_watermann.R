@@ -8,10 +8,6 @@ df <- read.xlsx("seq3.xlsx", rowNames = F)
 df <-as.data.frame(apply(df,2, function(x) gsub( " ", "", x)))
 
 
-
-tokenizer <- 
-
-
 if(!is.null(gap.marker)) df[df==gap.marker&!is.na(df)] <- paste0(df[df==gap.marker&!is.na(df)], 1:length(df[df==gap.marker&!is.na(df)])) 
 
 smith_waterman_2 <-function (a, b, FUN = identity, type = "words", tokenizer = function(x) unlist(strsplit(x, "[[:space:]]")), ...) 
