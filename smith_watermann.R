@@ -1,20 +1,76 @@
 library(text.alignment)
+library(openxlsx)
 
-df <- read.csv2("seq2.csv") 
+gap.marker <-"GP"
+
+
+df <- read.xlsx("seq3.xlsx", rowNames = F) 
 df <-as.data.frame(apply(df,2, function(x) gsub( " ", "", x)))
-df <-as.data.frame(apply(df,2, function(x) gsub( "\\/", "", x)))
-df <-as.data.frame(apply(df,2, function(x) gsub( "\\*", "", x)))
-df <-as.data.frame(apply(df,2, function(x) gsub( "\\.", "", x)))
+
+
+
+tokenizer <- 
+
+
+if(!is.null(gap.marker)) df[df==gap.marker&!is.na(df)] <- paste0(df[df==gap.marker&!is.na(df)], 1:length(df[df==gap.marker&!is.na(df)])) 
+
+smith_waterman_2 <-function (a, b, FUN = identity, type = "words", tokenizer = function(x) unlist(strsplit(x, "[[:space:]]")), ...) 
+{
+  as_tif <- function(x) {
+    if (is.character(x) | is.factor(x)) {
+      if (is.null(names(x))) {
+        x <- data.frame(doc_id = seq_along(x), text = as.character(x), 
+                        stringsAsFactors = FALSE)
+      }
+      else {
+        x <- data.frame(doc_id = names(x), text = as.character(x), 
+                        stringsAsFactors = FALSE)
+      }
+    }
+    x
+  }
+  set_names <- function(object, objectnames) {
+    names(object) <- objectnames
+    object
+  }
+  a <- as_tif(a)
+  b <- as_tif(b)
+  stopifnot(is.data.frame(a) & is.data.frame(b))
+  stopifnot(all(c("doc_id", "text") %in% colnames(a)))
+  stopifnot(all(c("doc_id", "text") %in% colnames(b)))
+  a <- a[, c("doc_id", "text"), drop = FALSE]
+  b <- b[, c("doc_id", "text"), drop = FALSE]
+  combinations <- merge(a, b, by = character(), suffixes = c(".a", 
+                                                             ".b"))
+  x <- mapply(a = set_names(combinations$text.a, combinations$doc_id.a), 
+              b = set_names(combinations$text.b, combinations$doc_id.b), 
+              FUN = function(a, b, ...) {
+                alignment <- smith_waterman(a = a, b = b, type = type, tokenizer = tokenizer,...)
+                alignment
+              }, ..., SIMPLIFY = FALSE, USE.NAMES = FALSE)
+  x <- lapply(x, FUN = FUN)
+  x <- mapply(x, a = combinations$doc_id.a, b = combinations$doc_id.b, 
+              FUN = function(x, a, b, ...) {
+                x$a_doc_id <- a
+                x$b_doc_id <- b
+                x
+              }, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+  x
+}
+
+
 
 ###compare all sequences pairwise
 df_t <- as.matrix(t(df))
+colnames(df_t) <- NULL
 df_t[which(df_t=="")] <- NA
 q <- cbind(colnames(df),as.data.frame(apply(df_t, 1, function(x) cbind(names(x),paste(x[!is.na(x)], collapse = " ")))))
 p_rev <- cbind(colnames(df),as.data.frame(apply(df_t, 1, function(x) cbind(names(x),paste(rev(x)[!is.na(rev(x))], collapse = " ")))))
 colnames(q)<-colnames(p_rev) <- c("doc_id", "text")
 p <- q
-alignments <- smith_waterman_pairwise(p, q, type="words")
-alignments_rev <-  smith_waterman_pairwise(q, p_rev, type="words")
+alignments <- smith_waterman_2(p, q, type="words")
+
+alignments_rev <-  smith_waterman_2(q, p_rev, type="words")
 
 x <- lapply(alignments, FUN = function(a){
   x <- as.data.frame(a)
@@ -56,7 +112,7 @@ sw <- cbind(x, y[,c("sw_inv", "similarity_inv", "matches_inv",
                     "b_from_inv", "b_to_inv")]
             )
 
-write.csv2(sw,"smith_waterman_incl_inv.csv")
+write.xlsx(sw,"smith_waterman_incl_inv.xlsx")
 
 ####second order sw
 
