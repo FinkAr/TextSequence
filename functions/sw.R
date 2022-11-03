@@ -1,6 +1,6 @@
-sw <- function(file, output.file = NULL, gap.marker = "GP",rev = T, sec_order = F){ 
+sw <- function(file, sheet =1, output.file = NULL, gap.marker = "GP",rev = T, sec_order = F){ 
   print("Start smith-waterman analysis")
-  if(grepl(".xlsx",file)) df<- read.xlsx(file)else if(grepl(".csv",file)) df<- read.csv2(file) else stop("The input file has to be csv or xlsx.")
+  if(grepl(".xlsx",file)) df<- read.xlsx(file, sheet = sheet)else if(grepl(".csv",file)) df<- read.csv2(file) else stop("The input file has to be csv or xlsx.")
   df <-as.data.frame(apply(df,2, function(x) gsub( " ", "", x)))
   if(!is.null(gap.marker)) df[df==gap.marker&!is.na(df)] <- paste0(df[df==gap.marker&!is.na(df)], 1:length(df[df==gap.marker&!is.na(df)])) 
  
