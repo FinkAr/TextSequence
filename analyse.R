@@ -24,7 +24,7 @@ source("functions/smith_waterman_compl.R")
 ##sep = F; Sollen alle Verlgeiche in einer großen Tabelle (sep =F) oder in separaten Tabellen pro Text (sep = T)dargestellt werden. Wenn sep = F dauert die Berechnung deutlich länger
 ##colors = c("#ffa666","#ffd966", "#00BFFF") ; Farben für unterschiedliche KAtegorien im Dotplot im HEX-Format. Reihenfolge is Farbe für -1, Farbe für 0, Farbe für 1
 
-dotplots(file = "data/seq_redux.xlsx", sheet = 1, output.file = "results/dotplots_redux.xlsx",gap.marker = "GP", sep = F, colors = c("#ffa666","#ffd966", "#00BFFF")) 
+dotplots(file = "data/Priamelueberlieferung_reduziert.xlsx", sheet = 2, output.file = "results/dotplots_redux.xlsx",gap.marker = "GP", sep = F, colors = c("#ffa666","#ffd966", "#00BFFF")) 
 
 ####Führe Smith-Waterman-Analyse durch
 
@@ -36,4 +36,4 @@ dotplots(file = "data/seq_redux.xlsx", sheet = 1, output.file = "results/dotplot
 ##rev = T; Soll auch auch mit der invertierten Reihenfolge verglichen werden? Wir dgemacht wenn rev = T
 ##sec_order = F; Second order Smith-Waterman -> Erneuter Vergleich der gefundenen Sequencen miteinander (wenn sec_order =T; Achtung: erhöht die Berehcnungszeit deutlich). 
 
-sw(file = "data/seq_redux.xlsx", sheet = 1, output.file = "results/sw_incl_rev_redux.xlsx", gap.marker = "GP",rev = T, sec_order = F)
+sw(file = "data/Priamelueberlieferung_reduziert.xlsx", sheet = 2, output.file = "results/sw_incl_rev_redux.xlsx", gap.marker = "GP",rev = T, sec_order = F)
