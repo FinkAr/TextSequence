@@ -7,7 +7,6 @@ dotplots <- function(file = NULL, sheet =1, output.file = NULL, gap.marker = "GP
   pb <- txtProgressBar(min = 0, max =length(data)+1, style = 3)
   if(sep ==T){
     for (i in 1:length(data)) {
-     # print(paste("Analysiere Text",i, "von", length(data)))
       setTxtProgressBar(pb, i)
       matched <- vector("list", length = (length(data)))
       names(matched) <- colnames(df)
@@ -138,7 +137,7 @@ dotplots <- function(file = NULL, sheet =1, output.file = NULL, gap.marker = "GP
     
     openxlsx::conditionalFormatting(wb,
                                     sheet =  "total",
-                                    rows = 1:(sum(unlist(lapply(matched, nrow))[1:q])+q+1),
+                                    rows = 1:(sum(unlist(lapply(matched, ncol))[1:q])+q+1),
                                     cols = 1:(sum(unlist(lapply(matched, ncol))[1:q])+q+1),
                                     style = colors,
                                     rule = c(-1, 0, 1),
