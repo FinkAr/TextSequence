@@ -93,13 +93,13 @@ dotplots <- function(file = NULL, sheet =1, output.file = NULL, gap.marker = "GP
           openxlsx::writeData(wb,
                               sheet = "total",
                               match,
-                              startCol = 1,
+                              startCol = 2,
                               startRow = 2,
                               rowNames = T)
           openxlsx::writeData(wb,
                               sheet = "total",
                               paste(names(data)[i],names(data)[q],sep="/"),
-                              startRow = 1,
+                              startRow = 2,
                               startCol = 1)
           
         }else{
@@ -111,9 +111,10 @@ dotplots <- function(file = NULL, sheet =1, output.file = NULL, gap.marker = "GP
             startRow <- 2
           }else startRowName <- startRow-1
           if(q ==1){
-            startCol <- 1 
+            startCol <- 2
+            startColName <- 1
             rowNames <- T
-          }else startCol <- sum(unlist(lapply(matched, ncol))[1:(q-1)])+q+1
+          }else startCol <- startColName <- sum(unlist(lapply(matched, ncol))[1:(q-1)])+q+2
           
           openxlsx::writeData(wb,
                               sheet = "total",
@@ -126,7 +127,7 @@ dotplots <- function(file = NULL, sheet =1, output.file = NULL, gap.marker = "GP
                               sheet = "total",
                               paste(names(data)[i],names(data)[q],sep="/"),
                               startRow = startRowName,
-                              startCol = startCol
+                              startCol = startColName
                               
           )}
         
