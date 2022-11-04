@@ -34,6 +34,5 @@ dotplots(file = "data/Priamelueberlieferung_reduziert.xlsx", sheet = 2, output.f
 ##output.file = NULL; Name für Output-File im xlsx-Format
 ##gap.marker = "GP"; Marker für Lücken im Input-File. Werden intern automatisch durchnummeriert.
 ##rev = T; Soll auch auch mit der invertierten Reihenfolge verglichen werden? Ja -> rev = T; nein -> rev = F
-##sec_order = F; second order Smith-Waterman;experminentell(!) -> Erneuter Vergleich der gefundenen Sequenzen miteinander (wenn sec_order = T; Achtung: erhöht die Berehcnungszeit deutlich). 
 
-sw(file = "data/Priamelueberlieferung_reduziert.xlsx", sheet = 2, output.file = "results/sw_incl_rev_redux.xlsx", gap.marker = "GP",rev = T, sec_order = F)
+sw(file = "data/Priamelueberlieferung_reduziert.xlsx", sheet = 2, output.file = "results/sw_incl_rev_redux.xlsx", gap.marker = "GP",rev = T)
