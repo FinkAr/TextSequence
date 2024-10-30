@@ -1,4 +1,4 @@
-dotplots <- function(file = NULL, sheet =1, output.file = NULL, gap.marker = "GP", sep = F, colors = c("#ffa666","#ffd966", "#00BFFF")){
+dotplots <- function(file = NULL, sheet =1, output.file = NULL, gap.marker = "GP", sep = F, colors = c("#ffa667","#ffd966", "#00BFFF")){
   
   if(grepl(".xlsx",file)) df<- read.xlsx(file, sheet = sheet)else if(grepl(".csv",file)) df<- read.csv2(file) else stop("The input file has to be csv or xlsx.")
   if(!is.null(gap.marker)) df[df==gap.marker&!is.na(df)] <- paste0(df[df==gap.marker&!is.na(df)], 1:length(df[df==gap.marker&!is.na(df)])) 
